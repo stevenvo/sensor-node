@@ -34,7 +34,11 @@ typedef struct {
   float Y;
 } Quat;
 
-Quat quat;
+typedef struct {
+  Quat Q;
+} Mpu_Data;
+
+Mpu_Data mpu_data;
 
 
 void setup_RF24(){
@@ -56,15 +60,17 @@ void setup()
 
 void loop() {
 
-  quat.X = 1.0;
-  quat.Y = 2.0;
+  Quat quat;
+  quat.X = 2.0;
+  quat.Y = 3.0;
+  mpu_data.Q = quat;
   bool ok;
   
-  const char text[] = "Hello World";
-  ok = radio.write(&text, sizeof(text));
-  Serial.println(ok);
+//  const char text[] = "Hello World";
+//  ok = radio.write(&text, sizeof(text));
+//  Serial.println(ok);
 
-  ok = radio.write(&quat, sizeof(quat));
+  ok = radio.write(&mpu_data, sizeof(mpu_data));
   Serial.println(ok);
   
   delay(1000);
