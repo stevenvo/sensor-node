@@ -1,33 +1,28 @@
+/**********
+ * Teensy -> RF24
+ * gnd    -> GND 1
+ * vcc    -> Vcc 2
+ * 9      -> CE 3
+ * 10     -> CSN 4
+ * 11     -> MOSI 6
+ * 12     -> MISO 7
+ * 13     -> SCK 5
+ * irq(8) is not connected(black wire)
+ * 
+ * 
+ * 
+ * 
+ */
+
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
 
 
-RF24 radio(7, 8);
+//RF24 radio(7, 8);
+RF24 radio(9, 10);
 const byte rxAddr[11] = "svo-sensor";
 
-
-// I2Cdev and MPU6050 must be installed as libraries, or else the .cpp/.h files
-// for both classes must be in the include path of your project
-#include "I2Cdev.h"
-
-#include "MPU6050_6Axis_MotionApps20.h"
-//#include "MPU6050.h" // not necessary if using MotionApps include file
-
-// Arduino Wire library is required if I2Cdev I2CDEV_ARDUINO_WIRE implementation
-// is used in I2Cdev.h
-#if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
-    #include "Wire.h"
-#endif
-
-// class default I2C address is 0x68
-// specific I2C addresses may be passed as a parameter here
-// AD0 low = 0x68 (default for SparkFun breakout and InvenSense evaluation board)
-// AD0 high = 0x69
-MPU6050 mpu;
-//MPU6050 mpu(0x69); // <-- use for AD0 high
-
-#define OUTPUT_READABLE_QUATERNION
 
 typedef struct {
   float X;
@@ -73,5 +68,5 @@ void loop() {
   ok = radio.write(&mpu_data, sizeof(mpu_data));
   Serial.println(ok);
   
-  delay(1000);
+//  delay(1000);
 }
