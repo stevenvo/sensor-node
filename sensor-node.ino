@@ -253,6 +253,18 @@ void loop_mpu() {
       quat.y = q.y;
       quat.z = q.z;
       mpu_data.Q = quat;
+      
+      mpu.dmpGetQuaternion(&q, fifoBuffer);
+      mpu.dmpGetEuler(euler, &q);
+      
+      mpu.dmpGetQuaternion(&q, fifoBuffer);
+      mpu.dmpGetGravity(&gravity, &q);
+      mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+
+      mpu.dmpGetQuaternion(&q, fifoBuffer);
+      mpu.dmpGetAccel(&aa, fifoBuffer);
+      mpu.dmpGetGravity(&gravity, &q);
+      mpu.dmpGetLinearAccel(&aaReal, &aa, &gravity);
 #endif
       
 #ifdef OUTPUT_READABLE_EULER
